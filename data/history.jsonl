@@ -1,0 +1,6 @@
+{"ts": "2026-02-10T15:00:00Z", "event_type": "login_success", "user": "jane", "source_ip": "203.0.113.5", "country": "US", "city": "Houston", "device_id": "mac-1", "outcome": "success", "meta": {"mfa": "passed"}}
+{"ts": "2026-02-10T15:05:00Z", "event_type": "data_access", "user": "jane", "source_ip": "203.0.113.5", "country": "US", "city": "Houston", "device_id": "mac-1", "resource": "normal_docs", "outcome": "success", "meta": {}}
+{"ts": "2026-02-11T15:00:00Z", "event_type": "login_success", "user": "jane", "source_ip": "203.0.113.6", "country": "US", "city": "Houston", "device_id": "mac-1", "outcome": "success", "meta": {"mfa": "passed"}}
+{"ts": "2026-02-11T15:20:00Z", "event_type": "data_access", "user": "jane", "source_ip": "203.0.113.6", "country": "US", "city": "Houston", "device_id": "mac-1", "resource": "normal_docs", "outcome": "success", "meta": {}}
+{"ts": "2026-02-10T14:00:00Z", "event_type": "login_success", "user": "ken", "source_ip": "203.0.113.10", "country": "US", "city": "Houston", "device_id": "mac-2", "outcome": "success", "meta": {"mfa": "passed"}}
+{"ts": "2026-02-11T14:10:00Z", "event_type": "login_success", "user": "ken", "source_ip": "203.0.113.10", "country": "US", "city": "Houston", "device_id": "mac-2", "outcome": "success", "meta": {"mfa": "passed"}}

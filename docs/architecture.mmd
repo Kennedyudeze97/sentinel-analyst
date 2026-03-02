@@ -1,0 +1,12 @@
+flowchart LR
+  A[Event Logs JSONL] --> B[Ingest & Parse]
+  B --> C[Baseline Builder]
+  B --> D[Detection Rules]
+  C --> D
+  D --> E[Risk Scoring]
+  E --> F[Incident Generator]
+  F --> G[Outputs]
+
+  G --> G1[CLI SOC Summary]
+  G --> G2[Incident JSON]
+  G --> G3[Slack / Jira / ServiceNow Payloads]

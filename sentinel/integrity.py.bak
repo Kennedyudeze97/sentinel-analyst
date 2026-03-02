@@ -1,0 +1,58 @@
+import hashlib
+import json
+from typing import Any, List
+
+
+ENGINE_VERSION = "2.0.0"
+
+
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def hash_file(path: str) -> str:
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def canonical_json(data: Any) -> bytes:
+    """
+    Deterministic JSON serialization.
+    Ensures stable hashing.
+    """
+    return json.dumps(
+        data,
+        sort_keys=True,
+        separators=(",", ":"),
+        default=str,
+    ).encode("utf-8")
+
+
+def add_integrity_metadata(
+    incident: dict,
+    input_sources: List[str],
+    input_hash: str,
+) -> dict:
+    """
+    Returns a new dict with integrity metadata + computed incident hash.
+    """
+
+    base = incident.copy()
+
+    base["generated_at"] = incident.get("created_at")
+    base["engine_version"] = ENGINE_VERSION
+    base["input_sources"] = input_sources
+    base["input_hash"] = input_hash
+
+    # Compute hash AFTER metadata except incident_hash itself
+    temp = base.copy()
+    temp.pop("incident_hash", None)
+
+    incident_hash = sha256_bytes(canonical_json(temp))
+
+    base["incident_hash"] = incident_hash
+
+    return base
