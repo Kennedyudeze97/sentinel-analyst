@@ -1,28 +1,9 @@
 {
   "users": {
-    "jane": {
-      "countries": [
-        "US",
-        "DE"
-      ],
-      "devices": [
-        "mac-1",
-        "unknown"
-      ],
-      "typical_login_hours": [
-        15
-      ]
-    },
-    "ken": {
-      "countries": [
-        "US"
-      ],
-      "devices": [
-        "mac-2"
-      ],
-      "typical_login_hours": [
-        14
-      ]
+    "alice": {
+      "countries": [],
+      "devices": [],
+      "typical_login_hours": []
     }
   }
 }

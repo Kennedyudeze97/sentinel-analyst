@@ -4,11 +4,9 @@ Sentinel is a local SOC-style detection engine that ingests identity/security ev
 
 It is designed to mirror how real security teams triage identity threats, correlate signals, and produce investigation-ready output.
 
----
-
 ## What it produces
 
-Sentinel generates both analyst-facing and automation-ready outputs:
+Sentinel generates both analyst-facing and automation-ready outputs.
 
 ### Analyst-facing
 - Human-readable SOC-style incident summaries (terminal)
@@ -23,19 +21,16 @@ Sentinel generates both analyst-facing and automation-ready outputs:
 - Jira ticket payloads (`tickets/*.jira.json`)
 - ServiceNow ticket payloads (`tickets/*.servicenow.json`)
 
----
-
 ## Why this matters (SOC reality)
 
 Security teams don’t struggle with lack of alerts — they struggle with lack of context.
 
 Sentinel focuses on:
-
-- correlating related signals into a single incident
-- explaining why detections fired
-- attaching evidence and rationale
-- mapping behavior to MITRE ATT&CK
-- generating ready-to-use workflow artifacts
+- Correlating related signals into a single incident
+- Explaining why detections fired
+- Attaching evidence and rationale
+- Mapping behavior to MITRE ATT&CK
+- Generating ready-to-use workflow artifacts
 
 This mirrors how SOC detection engineering pipelines operate in production environments.
 
@@ -56,3 +51,4 @@ flowchart LR
   G --> G1[CLI SOC Summary]
   G --> G2[Incident JSON]
   G --> G3[Slack / Jira / ServiceNow Payloads]
+md
