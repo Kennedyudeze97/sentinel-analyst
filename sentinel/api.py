@@ -14,6 +14,7 @@ from sentinel.integrity import add_integrity_metadata, canonical_json, sha256_by
 from sentinel.schemas import SecurityEvent
 from sentinel.serialize import to_json_safe
 from sentinel.explain import attach_explanation
+from sentinel.metrics import incr, snapshot
 
 APP_VERSION = os.environ.get("SENTINEL_VERSION", "1.0.0")
 
@@ -72,18 +73,30 @@ def health() -> Dict[str, str]:
     return {"status": "ok", "version": APP_VERSION}
 
 
+
+@app.get("/metrics")
+def metrics() -> Dict[str, int]:
+    return snapshot()
+
+
 @app.post("/analyze")
 def analyze_endpoint(req: AnalyzeRequest) -> Dict[str, Any]:
     try:
         events = _parse_events(req)
     except ValueError as e:
+        incr("ingest_failures")
         raise HTTPException(status_code=400, detail=str(e))
+
+    incr("events_processed", len(events))
+    incr("azuread_events", sum(1 for e in events if getattr(e, 'meta', None) and isinstance(e.meta, dict) and e.meta.get('source') == 'azuread'))
 
     # Deterministic input hash from normalized event dicts (no secrets logged)
     event_dicts = [e.model_dump(mode="python") for e in events]
     input_hash = sha256_bytes(canonical_json(to_json_safe(event_dicts)))
 
     incidents = analyze(events)
+    incr("detections_generated", len(incidents))
+    incr("high_severity_incidents", sum(1 for i in incidents if getattr(i, 'risk_score', 0) >= 80 or (isinstance(i, dict) and i.get('risk_score', 0) >= 80)))
 
     payloads: List[Dict[str, Any]] = []
     for inc in incidents:
