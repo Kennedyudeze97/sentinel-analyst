@@ -1,0 +1,2 @@
+{"createdDateTime":"2026-03-01T10:00:00Z","userPrincipalName":"alice@example.com","ipAddress":"10.0.0.1","location":{"countryOrRegion":"US"},"status":{"errorCode":0},"authenticationDetails":[{"authenticationMethod":"Password"}]}
+{"createdDateTime":"2026-03-01T10:05:00Z","userPrincipalName":"alice@example.com","ipAddress":"185.12.44.2","location":{"countryOrRegion":"RU"},"status":{"errorCode":50126},"authenticationDetails":[{"authenticationMethod":"Password"}]}
