@@ -62,7 +62,7 @@ Sentinel generates both analyst-facing and automation-ready outputs.
 
 ## Why this matters
 
-Security teams do not struggle with lack of alerts — they struggle with lack of context, excessive noise, and inconsistent response.
+Security teams do not struggle with lack of alerts,they struggle with lack of context, excessive noise, and inconsistent response.
 
 Sentinel focuses on:
 - Correlating related signals into a single incident
@@ -73,7 +73,7 @@ Sentinel focuses on:
 - Producing deterministic, verifiable artifacts
 - Driving response decisions from risk
 
-This mirrors how real SOC detection and security automation pipelines operate in production environments.
+This mirrors how SOC detection and security automation pipelines operate in production environments.
 
 ---
 
