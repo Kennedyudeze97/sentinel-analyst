@@ -16,6 +16,7 @@ MITRE_MAP = {
     "R004": {"tactic": "Initial Access", "technique_id": "T1078", "technique": "Valid Accounts"},
     "R005": {"tactic": "Initial Access", "technique_id": "T1078", "technique": "Valid Accounts"},
     "R006": {"tactic": "Defense Evasion", "technique_id": "T1036", "technique": "Masquerading"},
+    "R007": {"tactic": "Initial Access", "technique_id": "T1078", "technique": "Valid Accounts"},
 }
 
 
@@ -57,6 +58,8 @@ def compute_confidence(findings: list[Finding]) -> float:
         conf += 0.10
     if "R004" in rules and "R005" in rules:
         conf += 0.06
+    if "R007" in rules:
+        conf += 0.08
 
     conf = max(0.05, min(0.99, conf))
     return round(conf, 2)
@@ -147,8 +150,6 @@ def analyze(events: list[SecurityEvent]) -> list[Incident]:
 
         timeline = build_timeline(u_events)
         narrative = build_narrative(user, rs, rl, findings, confidence, verdict)
-        if timeline:
-            narrative = narrative + "\n\nTimeline:\n" + timeline
 
         mitre_ids = sorted({(f.mitre or {}).get("technique_id") for f in findings if (f.mitre or {}).get("technique_id")})
 
