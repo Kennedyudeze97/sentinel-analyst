@@ -1,0 +1,26 @@
+{
+  "risk_thresholds": {
+    "high": 80,
+    "medium": 60
+  },
+  "response_playbooks": {
+    "high": {
+      "actions": ["disable_user", "escalate_ticket"],
+      "required_approvals": ["security_lead"],
+      "reasoning": "high-risk incident requires containment and escalation"
+    },
+    "medium": {
+      "actions": ["escalate_ticket"],
+      "required_approvals": [],
+      "reasoning": "medium-risk incident requires analyst review"
+    },
+    "low": {
+      "actions": ["monitor"],
+      "required_approvals": [],
+      "reasoning": "low-risk incident retained for observation"
+    }
+  },
+  "correlation": {
+    "window_hours": 1
+  }
+}

@@ -2,12 +2,23 @@ from __future__ import annotations
 
 from collections import defaultdict
 from typing import Any, Dict, List, Tuple
+from sentinel.config import get_correlation_window_hours
 
 
 def _hour_bucket(ts: str | None) -> str:
     if not ts:
         return "unknown"
-    return str(ts)[:13]  # e.g. 2026-03-01T10
+
+    window_hours = max(1, int(get_correlation_window_hours()))
+    ts_str = str(ts)
+
+    # Parse hour from ISO-like timestamp: YYYY-MM-DDTHH
+    try:
+        hour = int(ts_str[11:13])
+        bucket_start = hour - (hour % window_hours)
+        return f"{ts_str[:11]}{bucket_start:02d}"
+    except Exception:
+        return ts_str[:13]
 
 
 def _rules_key(incident: Dict[str, Any]) -> Tuple[str, ...]:

@@ -6,29 +6,44 @@ from typing import Any, Dict, List
 
 from sentinel.integrity import canonical_json, sha256_bytes
 from sentinel.serialize import to_json_safe
+from sentinel.config import get_risk_thresholds, get_response_playbooks
 
 
 RESPONDER_VERSION = "1.0"
 
 
 def select_actions(risk_score: int) -> Dict[str, Any]:
-    if risk_score >= 80:
-        return {
-            "actions": ["disable_user", "escalate_ticket"],
-            "required_approvals": ["security_lead"],
-            "reasoning": "high-risk incident requires containment and escalation",
-        }
-    if risk_score >= 60:
-        return {
-            "actions": ["escalate_ticket"],
+    thresholds = get_risk_thresholds()
+    playbooks = get_response_playbooks()
+
+    if risk_score >= int(thresholds.get("high", 80)):
+        return playbooks.get(
+            "high",
+            {
+                "actions": ["disable_user", "escalate_ticket"],
+                "required_approvals": ["security_lead"],
+                "reasoning": "high-risk incident requires containment and escalation",
+            },
+        )
+
+    if risk_score >= int(thresholds.get("medium", 60)):
+        return playbooks.get(
+            "medium",
+            {
+                "actions": ["escalate_ticket"],
+                "required_approvals": [],
+                "reasoning": "medium-risk incident requires analyst review",
+            },
+        )
+
+    return playbooks.get(
+        "low",
+        {
+            "actions": ["monitor"],
             "required_approvals": [],
-            "reasoning": "medium-risk incident requires analyst review",
-        }
-    return {
-        "actions": ["monitor"],
-        "required_approvals": [],
-        "reasoning": "low-risk incident retained for observation",
-    }
+            "reasoning": "low-risk incident retained for observation",
+        },
+    )
 
 
 def build_response(incident: Dict[str, Any]) -> Dict[str, Any]:
