@@ -13,6 +13,7 @@ from sentinel.analyst import analyze
 from sentinel.integrity import add_integrity_metadata, canonical_json, sha256_bytes
 from sentinel.schemas import SecurityEvent
 from sentinel.serialize import to_json_safe
+from sentinel.explain import attach_explanation
 
 APP_VERSION = os.environ.get("SENTINEL_VERSION", "1.0.0")
 
@@ -96,6 +97,7 @@ def analyze_endpoint(req: AnalyzeRequest) -> Dict[str, Any]:
 
         d = to_json_safe(d)
 
+        d = attach_explanation(d)
         d = add_integrity_metadata(
             d,
             input_sources=["api"],
