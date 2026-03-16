@@ -73,7 +73,6 @@ Sentinel focuses on:
 - Producing deterministic, verifiable artifacts
 - Driving response decisions from risk
 
-This mirrors how SOC detection and security automation pipelines operate in production environments.
 
 ---
 
